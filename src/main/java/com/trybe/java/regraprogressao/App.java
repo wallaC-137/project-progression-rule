@@ -3,37 +3,25 @@ package com.trybe.java.regraprogressao;
 import java.util.Scanner;
 
 /**
- * App.
+ * Aplicação para calcular notas e pesos de atividades.
  */
 public class App {
 
-  private static int quantidadeAtividades;
-  //  private static String[] atividades;
-  private static int[] pesos;
-  private static int[] notas;
-
-  private static int count = 0;
-
   /**
-   * Metodo main.
+   * Método principal da aplicação.
    *
-   * @param args the input arguments
+   * @param args Argumentos da linha de comando.
    */
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
 
     System.out.println("Digite a quantidade de atividades para cadastrar:");
-    quantidadeAtividades = Integer.parseInt(scanner.nextLine());
+    int quantidadeAtividades = Integer.parseInt(scanner.nextLine());
 
-    //    atividades = new String[quantidadeAtividades];
-    App.pesos = new int[quantidadeAtividades];
-    App.notas = new int[quantidadeAtividades];
+    int[] pesos = new int[quantidadeAtividades];
+    int[] notas = new int[quantidadeAtividades];
+    int count = 0;
 
-    cadastraAtividade(scanner);
-
-  }
-
-  private static void cadastraAtividade(Scanner scanner) {
     while (count < quantidadeAtividades) {
       System.out.println("Digite o nome da atividade " + (count + 1) + ":");
       String nomeAtividade = scanner.nextLine();
@@ -44,37 +32,43 @@ public class App {
       System.out.println("Digite a nota obtida para " + nomeAtividade + ":");
       int notaAtividade = Integer.parseInt(scanner.nextLine());
 
-      //      atividades[count] = nomeAtividade;
-      App.pesos[count] = pesoAtividade;
-      App.notas[count] = pesoAtividade * notaAtividade;
+      pesos[count] = pesoAtividade;
+      notas[count] = pesoAtividade * notaAtividade;
 
-      App.count++;
+      count++;
     }
+
     if (total(pesos) > 100) {
       System.out.println("O peso total das atividades não pode ser maior que 100.");
       System.exit(0);
     }
 
-    if (notaFinal() >= 85) {
-      System.out.println("Parabéns! Você alcançou " + notaFinal() + '%'
-          + "! E temos o prazer de informar que você obteve aprovação!");
+    int notaFinal = notaFinal(notas);
+    if (notaFinal >= 85) {
+      System.out.println("Parabéns! Você alcançou " + notaFinal
+          + ".0%! E temos o prazer de informar que você obteve aprovação!");
     } else {
       System.out.println(
-          "Lamentamos informar que, com base na sua pontuação alcançada neste período, "
-              + notaFinal()
-              + ", você não atingiu a pontuação mínima necessária para sua aprovação.");
+          "Lamentamos informar que, com base na sua pontuação alcançada neste período, " + notaFinal
+              + ".0%, você não atingiu a pontuação mínima necessária para sua aprovação.");
     }
   }
 
-  private static int notaFinal() {
-    return App.total(App.notas) / 100;
+  /**
+   * Calcula a nota final com base nas notas obtidas e pesos das atividades.
+   *
+   * @param notas Notas das atividades.
+   * @return A nota final.
+   */
+  private static int notaFinal(int[] notas) {
+    return total(notas) / 100;
   }
 
   /**
-   * Peso total int.
+   * Calcula o total de pontos.
    *
-   * @param array the array
-   * @return the int
+   * @param array Um array de inteiros.
+   * @return O total de pontos.
    */
   private static int total(int[] array) {
     int sum = 0;
@@ -83,5 +77,4 @@ public class App {
     }
     return sum;
   }
-
 }
